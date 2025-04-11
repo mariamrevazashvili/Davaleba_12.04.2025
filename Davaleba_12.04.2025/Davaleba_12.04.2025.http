@@ -1,0 +1,6 @@
+@Davaleba_12._04._2025_HostAddress = http://localhost:5207
+
+GET {{Davaleba_12._04._2025_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
