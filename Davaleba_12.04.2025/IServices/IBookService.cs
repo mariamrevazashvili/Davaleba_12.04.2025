@@ -6,6 +6,7 @@ namespace Davaleba_12._04._2025.IServices
     public interface IBookService
     {
         Task<IEnumerable<Book>> GetAllBooksUnderPriceAsync(int price);
+        Task<IEnumerable<Book>> GetBooksInPriceRangeAsync(int minPrice, int maxPrice);
         Task<int> CreatebookAsync(BookCreateDto dto);
         void UpdateBook(BookUpdateDto dto);
     }

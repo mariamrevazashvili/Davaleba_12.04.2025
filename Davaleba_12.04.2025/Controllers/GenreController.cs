@@ -1,5 +1,7 @@
 ﻿using Davaleba_12._04._2025.IRepository;
+using Davaleba_12._04._2025.IServices;
 using Davaleba_12._04._2025.Models;
+using Davaleba_12._04._2025.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Davaleba_12._04._2025.Controllers
@@ -9,10 +11,12 @@ namespace Davaleba_12._04._2025.Controllers
     public class GenresController : ControllerBase
     {
         private readonly IGenreRepository _genreRepository;
+        private readonly IGenreService _genreService;
 
-        public GenresController(IGenreRepository genreRepository)
+        public GenresController(IGenreRepository genreRepository, IGenreService genreService)
         {
             _genreRepository = genreRepository;
+            _genreService = genreService;
         }
 
         [HttpGet]
@@ -58,6 +62,19 @@ namespace Davaleba_12._04._2025.Controllers
         {
             _genreRepository.Delete(id);
             return NoContent();
+        }
+
+        [HttpGet("BookByGenre")]
+        public async Task<ActionResult<List<Book>>> GetBookByGenre(string genre)
+        {
+            var books = await _genreService.GetBookByGenreAsync(genre);
+
+            if (books == null || books.Count == 0)
+            {
+                return NotFound($"No books found for genre: {genre}");
+            }
+
+            return Ok(books);
         }
     }
 }

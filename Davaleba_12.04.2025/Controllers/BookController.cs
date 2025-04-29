@@ -74,5 +74,16 @@ namespace Davaleba_12._04._2025.Controllers
             var books = await _bookService.GetAllBooksUnderPriceAsync(price);
             return Ok(books);
         }
+
+
+        [HttpGet("price-range")]
+        public async Task<ActionResult<IEnumerable<Book>>> GetBooksByPriceRange(int minPrice, int maxPrice)
+        {
+            if (minPrice > maxPrice)
+                return BadRequest("Minimum price cannot be greater than maximum price.");
+
+            var books = await _bookService.GetBooksInPriceRangeAsync(minPrice, maxPrice);
+            return Ok(books);
+        }
     }
 }

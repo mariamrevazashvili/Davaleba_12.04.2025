@@ -39,5 +39,12 @@ namespace Davaleba_12._04._2025.Services
             await _bookRepository.AddAsync(book);
             return book.Id;
         }
+
+
+        public async Task<IEnumerable<Book>> GetBooksInPriceRangeAsync(int minPrice, int maxPrice)
+        {
+            var books = await _bookRepository.GetAllAsync();
+            return books.Where(p => p.Price >= minPrice && p.Price <= maxPrice);
+        }
     }
 }

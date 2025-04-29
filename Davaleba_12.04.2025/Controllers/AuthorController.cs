@@ -1,4 +1,5 @@
 ﻿using Davaleba_12._04._2025.IRepository;
+using Davaleba_12._04._2025.IServices;
 using Davaleba_12._04._2025.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,12 @@ namespace Davaleba_12._04._2025.Controllers
     public class AuthorsController : ControllerBase
     {
         private readonly IAuthorRepository _authorRepository;
+        private readonly IAuthorService _authorService;
 
-        public AuthorsController(IAuthorRepository authorRepository)
+        public AuthorsController(IAuthorRepository authorRepository, IAuthorService authorService)
         {
             _authorRepository = authorRepository;
+            _authorService = authorService;
         }
 
         [HttpGet]
@@ -57,6 +60,19 @@ namespace Davaleba_12._04._2025.Controllers
         {
             _authorRepository.Delete(id);
             return NoContent();
+        }
+
+        [HttpGet("BookByAuthor")]
+        public async Task<ActionResult<List<Book>>> GetBookByAuthor(string authorName)
+        {
+            var books = await _authorService.GetBookByAuthorNameAsync(authorName);
+
+            if (books == null || books.Count == 0)
+            {
+                return NotFound($"No books found for author: {authorName}");
+            }
+
+            return Ok(books);
         }
     }
 }
