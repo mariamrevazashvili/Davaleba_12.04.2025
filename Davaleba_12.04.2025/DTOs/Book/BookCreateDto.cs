@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Davaleba_12._04._2025.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace Davaleba_12._04._2025.Models
+namespace Davaleba_12._04._2025.DTOs.Book
 {
-    public class Book : Base
+    public class BookCreateDto
     {
         [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; }
@@ -16,12 +17,7 @@ namespace Davaleba_12._04._2025.Models
         public int Price { get; set; }
 
         public int AuthorId { get; set; }
-
-        [ForeignKey("AuthorId")]
-        public Author Author { get; set; }
-
         public int GenreId { get; set; }
-        [ForeignKey("GenreId")]
-        public Genre Genre { get; set; }
     }
 }
+

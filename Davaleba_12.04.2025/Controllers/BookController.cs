@@ -1,4 +1,5 @@
-﻿using Davaleba_12._04._2025.IRepository;
+﻿using Davaleba_12._04._2025.DTOs.Book;
+using Davaleba_12._04._2025.IRepository;
 using Davaleba_12._04._2025.IServices;
 using Davaleba_12._04._2025.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -36,21 +37,26 @@ namespace Davaleba_12._04._2025.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
+        public async Task<ActionResult<Book>> PostBook(BookCreateDto bookDto)
         {
-            await _bookRepository.AddAsync(book);
-            return CreatedAtAction("GetBook", new { id = book.Id }, book);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            int newBookId = await _bookService.CreatebookAsync(bookDto);
+            return CreatedAtAction("GetBook", new { id = newBookId }, bookDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBook(int id, Book book)
+        public async Task<IActionResult> PutBook(int id, BookUpdateDto bookDto)
         {
-            if (id != book.Id)
+            if (id != bookDto.Id)
             {
                 return BadRequest();
             }
 
-            _bookRepository.Update(book);
+            _bookService.UpdateBook(bookDto);
             await _bookRepository.SaveChangesAsync();
             return NoContent();
         }
