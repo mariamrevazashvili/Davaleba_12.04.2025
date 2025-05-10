@@ -3,9 +3,9 @@ using Davaleba_12._04._2025.Models;
 
 namespace Davaleba_12._04._2025.Mapper
 {
-    public class BookMappingExtensions
+    public static class BookMappingExtensions
     {
-        public static Book ToEntity(BookCreateDto dto)
+        public static Book ToEntity(this BookCreateDto dto)
         {
             return new Book
             {

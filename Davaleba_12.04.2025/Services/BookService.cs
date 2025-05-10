@@ -34,7 +34,7 @@ namespace Davaleba_12._04._2025.Services
 
         public async Task<int> CreatebookAsync(BookCreateDto dto)
         {
-            var book = BookMappingExtensions.ToEntity(dto);
+            var book = dto.ToEntity();
 
             await _bookRepository.AddAsync(book);
             return book.Id;
